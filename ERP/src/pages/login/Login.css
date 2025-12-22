@@ -1,0 +1,134 @@
+/* Center the login card on the page */
+.login-page {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1.5rem;
+	background: linear-gradient(135deg, #1f2937, #3b82f6);
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Wrapper for form content */
+.login-card {
+	width: 100%;
+	max-width: 420px;
+	background-color: #ffffff;
+	border-radius: 12px;
+	box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+	padding: 2.5rem 2.25rem;
+}
+
+.login-card h1 {
+	margin: 0 0 0.5rem;
+	font-size: 1.9rem;
+	color: #111827;
+	text-align: center;
+}
+
+.login-card p {
+	margin: 0 0 2rem;
+	font-size: 0.95rem;
+	color: #6b7280;
+	text-align: center;
+}
+
+.login-form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.2rem;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+
+.login-error {
+	padding: 0.75rem 0.9rem;
+	border-radius: 10px;
+	background-color: #fee2e2;
+	color: #b91c1c;
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.form-group label {
+	font-size: 0.95rem;
+	color: #374151;
+	font-weight: 600;
+}
+
+.form-group input {
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	padding: 0.75rem 0.85rem;
+	font-size: 1rem;
+	transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+	outline: none;
+	border-color: #3b82f6;
+	box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.login-submit {
+	border: none;
+	border-radius: 999px;
+	padding: 0.85rem 1.2rem;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #ffffff;
+	background: linear-gradient(135deg, #2563eb, #1d4ed8);
+	cursor: pointer;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-submit:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 12px 24px rgba(37, 99, 235, 0.35);
+}
+
+.login-submit:active {
+	transform: translateY(0);
+	box-shadow: 0 6px 12px rgba(37, 99, 235, 0.25);
+}
+
+.login-submit:disabled {
+	cursor: not-allowed;
+	opacity: 0.65;
+	box-shadow: none;
+}
+
+.login-footer {
+	margin-top: 1.5rem;
+	text-align: center;
+	font-size: 0.9rem;
+	color: #6b7280;
+}
+
+.login-footer .link-button {
+	border: none;
+	background: none;
+	padding: 0;
+	margin: 0;
+	color: #2563eb;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.login-footer .link-button:hover {
+	text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+	.login-card {
+		padding: 2rem 1.5rem;
+	}
+
+	.login-card h1 {
+		font-size: 1.7rem;
+	}
+}

@@ -1,0 +1,125 @@
+.dashboard-page {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+	background: linear-gradient(135deg, #111827, #1e3a8a);
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-card {
+	width: 100%;
+	max-width: 720px;
+	background-color: #ffffff;
+	border-radius: 16px;
+	padding: 2.5rem 2.75rem;
+	box-shadow: 0 30px 65px rgba(17, 24, 39, 0.25);
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.dashboard-header {
+	display: flex;
+	justify-content: space-between;
+	gap: 1.5rem;
+	align-items: flex-start;
+}
+
+.dashboard-header h1 {
+	margin: 0 0 0.35rem;
+	font-size: 2rem;
+	color: #0f172a;
+}
+
+.dashboard-header p {
+	margin: 0.1rem 0;
+	color: #4b5563;
+	font-size: 1rem;
+}
+
+.dashboard-header .organization {
+	color: #1f2937;
+	font-weight: 500;
+}
+
+.highlight {
+	color: #2563eb;
+	font-weight: 600;
+}
+
+.logout-button {
+	border: none;
+	border-radius: 12px;
+	padding: 0.6rem 1.2rem;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: #ffffff;
+	background: linear-gradient(135deg, #ef4444, #dc2626);
+	cursor: pointer;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logout-button:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 12px 20px rgba(220, 38, 38, 0.35);
+}
+
+.logout-button:active {
+	transform: translateY(0);
+	box-shadow: 0 6px 12px rgba(220, 38, 38, 0.25);
+}
+
+.dashboard-content h2 {
+	margin: 0 0 1rem;
+	font-size: 1.25rem;
+	color: #111827;
+}
+
+.module-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 0.6rem;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.module-list li {
+	padding: 0.75rem;
+	border-radius: 10px;
+	background-color: #eff6ff;
+	color: #1d4ed8;
+	font-weight: 600;
+	text-align: center;
+}
+
+.empty-state {
+	margin: 0;
+	color: #6b7280;
+	font-size: 0.95rem;
+}
+
+.dashboard-footer {
+	margin-top: auto;
+	padding-top: 1rem;
+	border-top: 1px solid #e5e7eb;
+	color: #4b5563;
+	font-size: 0.95rem;
+}
+
+@media (max-width: 640px) {
+	.dashboard-card {
+		padding: 2rem 1.75rem;
+	}
+
+	.dashboard-header {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.logout-button {
+		align-self: flex-start;
+	}
+}
