@@ -193,6 +193,7 @@ app.post("/signup", async (req, res) => {
             }),
         }
         );
+        console.log("User created successfully");
     }catch(err){
         console.error("User creation failed:", err  
         )
@@ -222,6 +223,8 @@ app.post("/signup", async (req, res) => {
       }
     );
 
+    console.log("Organization configured successfully");
+
     // {
     // "username": "someone",
     // "organizationname": "ithive",
@@ -236,6 +239,7 @@ app.post("/signup", async (req, res) => {
     }
 
     const data = await backendResponse.json();
+    console.log("done");
 
     return res
       .status(backendResponse.status)
