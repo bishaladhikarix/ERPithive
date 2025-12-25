@@ -63,6 +63,15 @@
 	font-weight: 600;
 }
 
+.signup-success {
+	padding: 0.8rem 1rem;
+	border-radius: 10px;
+	background-color: #ecfdf5;
+	color: #047857;
+	font-size: 0.92rem;
+	font-weight: 600;
+}
+
 .form-group label {
 	font-size: 0.95rem;
 	color: #374151;

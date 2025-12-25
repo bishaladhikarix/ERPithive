@@ -25,30 +25,35 @@ export const loginUser = async (formdata) => {
 
 
 export const registerUser = async (formdata) => {
-  const res = await fetch('http://localhost:5000/signup', {
+  try{
+    const res = await fetch('http://localhost:5000/signup', {
     method: 'POST',
     credentials: "include",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formdata)
-  });
-  if (!res.ok) throw new Error('Signup failed');
-  return await res.json();
+    });
+    if (!res.ok) throw new Error('Signup failed');
+    return await res.json();
+
+  }catch(err){
+    console.error(err);
+  }
+
 };
 
 
 export const logoutUser = () => {
-  localStorage.removeItem('loggedIn');
-};
+  localStorage.clear();
+}
 
 
 export const updateModule   = async (moduleData) => {   
-    try{
+  try{
 
     const res = await fetch('http://localhost:5000/login', {
     method: 'POST',
-    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formdata)
+    body: JSON.stringify(moduleData)
 
   });
     if (!res.ok) throw new Error('Invalid credentials');
@@ -61,11 +66,11 @@ export const updateModule   = async (moduleData) => {
     
 }
 
-export const getModules = async () => {
-    const res = await fetch('http://localhost:5000/modules',)
-    if (!res.ok) throw new Error('Failed to fetch modules');
-    return await res.json();
-};
+// export const getModules = async () => {
+//     const res = await fetch('http://localhost:5000/modules')
+//     if (!res.ok) throw new Error('Failed to fetch modules');
+//     return await res.json();
+// };
 
 export const checkAuth = async () => {
   const token = localStorage.getItem('loggedIn');

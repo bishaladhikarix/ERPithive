@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../../services/auth.js";
 import "./Signup.css";
 
-const Signup = ({ onSignup, onNavigateLogin, loading = false, errorMessage = "" }) => {
+const Signup = () => {
+	const navigate = useNavigate();
+	const redirectTimerRef = useRef(null);
 	const [formData, setFormData] = useState({
 		username: "",
 		email: "",
+		password: "",
 		organization: "",
 		siteName: "",
 		modules: {
@@ -12,6 +17,25 @@ const Signup = ({ onSignup, onNavigateLogin, loading = false, errorMessage = "" 
 			inventory: false,
 		},
 	});
+	const [loading, setLoading] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
+	const [successMessage, setSuccessMessage] = useState("");
+
+	useEffect(() => {
+		const existingToken = localStorage.getItem("token");
+		if (existingToken) {
+			navigate("/dashboard", { replace: true });
+		}
+	}, [navigate]);
+
+	useEffect(
+		() => () => {
+			if (redirectTimerRef.current) {
+				clearTimeout(redirectTimerRef.current);
+			}
+		},
+		[]
+	);
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -31,11 +55,53 @@ const Signup = ({ onSignup, onNavigateLogin, loading = false, errorMessage = "" 
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		if (typeof onSignup === "function") {
-			await onSignup(formData);
-			return;
+		setLoading(true);
+		setErrorMessage("");
+		setSuccessMessage("");
+
+		const selectedModules = Object.entries(formData.modules)
+			.filter(([, enabled]) => enabled)
+			.map(([moduleKey]) => (moduleKey === "hr" ? "HR" : "Inventory"));
+
+		const payload = {
+			username: formData.username,
+			email: formData.email,
+			password: formData.password,
+			organization: formData.organization,
+			site_name: formData.siteName,
+			modules: formData.modules,
+			selectedModules,
+		}; 
+		console.log("Signup payload:", payload);
+		try {
+			const response = await registerUser(payload);
+			if (!response) {
+				throw new Error("Unable to create account.");
+			}
+
+			setSuccessMessage("Account created successfully. You can now sign in.");
+			setFormData({
+				username: "",
+				email: "",
+				password: "",
+				organization: "",
+				siteName: "",
+				modules: { hr: false, inventory: false },
+			});
+
+			if (redirectTimerRef.current) {
+				clearTimeout(redirectTimerRef.current);
+			}
+			redirectTimerRef.current = setTimeout(() => {
+				navigate("/", { replace: true });
+			}, 1200);
+		} catch (error) {
+			setErrorMessage(
+				error instanceof Error ? error.message : "Unable to create account."
+			);
+		} finally {
+			setLoading(false);
 		}
-		console.log("Signup attempt", formData);
 	};
 
 	return (
@@ -67,6 +133,19 @@ const Signup = ({ onSignup, onNavigateLogin, loading = false, errorMessage = "" 
 								type="email"
 								placeholder="jane@company.com"
 								value={formData.email}
+								onChange={handleInputChange}
+								required
+							/>
+						</div>
+
+						<div className="form-group">
+							<label htmlFor="password">Password</label>
+							<input
+								id="password"
+								name="password"
+								type="password"
+								placeholder="Create a secure password"
+								value={formData.password}
 								onChange={handleInputChange}
 								required
 							/>
@@ -132,22 +211,19 @@ const Signup = ({ onSignup, onNavigateLogin, loading = false, errorMessage = "" 
 						</div>
 					)}
 
+					{successMessage && (
+						<div className="signup-success" role="status" aria-live="polite">
+							{successMessage}
+						</div>
+					)}
+
 					<button className="signup-submit" type="submit" disabled={loading}>
 						{loading ? "Creating account..." : "Create account"}
 					</button>
 				</form>
 
 				<div className="signup-footer">
-					Already registered?{
-						" "
-					}
-					<button
-						className="link-button"
-						type="button"
-						onClick={onNavigateLogin}
-					>
-						Sign in instead
-					</button>
+					Already registered? <Link className="link-button" to="/">Sign in instead</Link>
 				</div>
 			</div>
 		</div>
