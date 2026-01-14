@@ -22,7 +22,9 @@ const Login = () => {
 	};
 
 	const handleSubmit = async (event) => {
+		
 		event.preventDefault();
+		console.log("Submitting login form with data:", formData);
 		setLoading(true);
 		setErrorMessage("");
 
@@ -32,7 +34,7 @@ const Login = () => {
 			if (!response) {
 				throw new Error("Invalid email or password.");
 			}
-
+			console.log("Login response:", response);
 			const token =
 				response.token ||
 				response.sid ||
