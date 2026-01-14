@@ -1,7 +1,9 @@
 import express from "express";
+import dotenv from "dotenv";
 import fetch from "node-fetch";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+dotenv.config();
 
 const app = express();
 
@@ -20,26 +22,27 @@ app.use(
 /* -------------------- LOGIN ROUTE -------------------- */
 // frontend → express → backend
 app.post("/login", async (req, res) => {
-  const { usr: username, pwd: password, cmd } = req.body;
+  console.log("Login request received with body:", req.body);
+  const { email, password } = req.body;
 
-  if (!username || !password) {
+  if (!email || !password) {
     return res.status(400).json({
-      message: "Username and password are required",
+      message: "Email and password are required",
     });
   }
 
   try {
     const backendResponse = await fetch(
-      "http://192.168.1.94:8080/api/method/login",
+      "http://sabin.localhost:8000/api/method/login",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          cmd,
-          usr: username,
-          pwd: password,
+          cmd: "login",
+          usr: email,
+          pwd: password
         }),
       }
     );
@@ -55,8 +58,8 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    return res.status(backendResponse.status).json(data);
-  } catch (err) {
+    return res.status(backendResponse.status).json({ success: backendResponse.ok, data }); 
+  }  catch (err){
     console.error(err);
     return res.status(500).json({ message: "Server error" });
   }
@@ -154,7 +157,7 @@ app.post("/signup", async (req, res) => {
         app.push("inventory");
     }
 
-
+    console.log(req.body);
     const backendResponse = await fetch(
       "http://localhost:9010/createsite",
       {
@@ -169,12 +172,13 @@ app.post("/signup", async (req, res) => {
             apps: app,
             email: req.body.email,
             password: req.body.password,
-            first_name:req.body.first_name
+            first_name:req.body.username
 
         }),
       }
     );
     try{
+      // http://saas.localhost:8000/api/v2/document/saasuser
         const createuser = await fetch(
         `http://saas.localhost:8000/api/v2/document/saasuser`,
         {
@@ -186,7 +190,7 @@ app.post("/signup", async (req, res) => {
             body: JSON.stringify({
 
                 
-                username: req.body.first_name,
+                username: req.body.username,
                 email: req.body.email
 
 
@@ -202,7 +206,8 @@ app.post("/signup", async (req, res) => {
 
     try{
 
-    const backendResponse = await fetch(
+      const createOrg = await fetch(
+      // http://saas.localhost:8000/api/v2/document/organization
       `http://saas.localhost:8000/api/v2/document/organization`,
       {
         method: "POST",
@@ -213,7 +218,7 @@ app.post("/signup", async (req, res) => {
         body: JSON.stringify({
 
 
-            username: req.body.first_name,
+            username: req.body.username,
             organizationname: req.body.organization,
             sitename: req.body.site_name,
             hr: req.body.modules.hr ? 1 : 0,
@@ -232,18 +237,20 @@ app.post("/signup", async (req, res) => {
     // "hr": 0,
     // "inventory": 1
     // }
+    const data = await createOrg.json();
+    console.log("done");
+    return res
+      .status(backendResponse.status)
+      .json({ success: backendResponse.ok, data });
 
     }catch(err){
         console.error("Configaration of organization failed:", err);
         return res.status(500).json({ message: "Server error" });
     }
 
-    const data = await backendResponse.json();
-    console.log("done");
 
-    return res
-      .status(backendResponse.status)
-      .json({ success: backendResponse.ok, data });
+
+    
 
   } catch (err) {
     console.error("Error :", err);
@@ -252,6 +259,84 @@ app.post("/signup", async (req, res) => {
 
 
 
+});
+
+app.get("/getUsername", async (req, res) => {
+  try {
+    // http://saas.localhost:8000/api/v2/document/saasuser?filters=[["email","=","${req.query.email}"]]
+    
+    const backendResponse = await fetch(
+      `http://saas.localhost:8000/api/v2/document/saasuser?filters=[["email","=","${req.query.email}"]]`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+           
+        },
+      }
+    );
+
+    const data = await backendResponse.json();
+
+    return res
+      .status(backendResponse.status)
+      .json({ success: backendResponse.ok, data });
+
+  } catch (err) {
+    console.error("Error fetching username:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/getmodules", async (req, res) => {
+  try {
+    // http://saas.localhost:8000/api/v2/document/organization?filters=[["username","=","${req.query.username}
+    const backendResponse = await fetch(
+      `http://saas.localhost:8000/api/v2/document/organization?filters=[["username","=","${req.query.username}"]]`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+           
+        },
+      }
+    );
+
+    const data = await backendResponse.json();
+
+    return res
+      .status(backendResponse.status)
+      .json({ success: backendResponse.ok, data });
+
+  } catch (err) {
+    console.error("Error fetching modules:", err);
+    return res.status(500).json({ message: "Server error" });
+  } 
+});
+
+app.get("/getorganizations", async (req, res) => {
+  try {
+    const backendResponse = await fetch(
+      `http://saas.localhost:8000/api/v2/document/organization?filters=[["username","=","${req.query.username}"]]`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+           
+        },
+      }
+    );
+
+    const data = await backendResponse.json();
+
+    return res
+      .status(backendResponse.status)
+      .json({ success: backendResponse.ok, data });
+
+  } catch (err) {
+    console.error("Error fetching organizations:", err);
+    return res.status(500).json({ message: "Server error" });
+  } 
 });
 
 

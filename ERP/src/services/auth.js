@@ -5,7 +5,7 @@ export const loginUser = async (formdata) => {
  
   try{
 
-    const res = await fetch('http://localhost:5000/login', {
+    const res = await fetch('http://localhost:5000/user/login', {
     method: 'POST',
     credentials: "include",
     headers: { 'Content-Type': 'application/json' },
@@ -26,7 +26,7 @@ export const loginUser = async (formdata) => {
 
 export const registerUser = async (formdata) => {
   try{
-    const res = await fetch('http://localhost:5000/signup', {
+    const res = await fetch('http://localhost:5000/user/signup', {
     method: 'POST',
     credentials: "include",
     headers: { 'Content-Type': 'application/json' },
@@ -48,21 +48,21 @@ export const logoutUser = () => {
 
 
 export const updateModule   = async (moduleData) => {   
-  try{
+  // try{
 
-    const res = await fetch('http://localhost:5000/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(moduleData)
+  //   const res = await fetch('http://localhost:5000/login', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify(moduleData)
 
-  });
-    if (!res.ok) throw new Error('Invalid credentials');
-    const data = await res.json();
-    localStorage.setItem('loggedIn', true); // simple token storage
-    return data;
-  }catch(err){
-    console.error(err);
-  }
+  // });
+  //   if (!res.ok) throw new Error('Invalid credentials');
+  //   const data = await res.json();
+  //   localStorage.setItem('loggedIn', true); // simple token storage
+  //   return data;
+  // }catch(err){
+  //   console.error(err);
+  // }
     
 }
 
