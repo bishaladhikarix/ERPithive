@@ -11,7 +11,7 @@ const customerSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    sitename: {
+    site_name: {
         type: String,
         required: true,
     },
