@@ -10,6 +10,7 @@ const Login = () => {
 	const [errorMessage, setErrorMessage] = useState("");
 
 	useEffect(() => {
+		console.log(import.meta.env.VITE_API_URL);
 		const existingToken = localStorage.getItem("token");
 		if (existingToken) {
 			navigate("/dashboard", { replace: true });
@@ -52,7 +53,7 @@ const Login = () => {
 			}
 			
 			if(response.ok){
-				localStorage.setItem("loggedIn", "true");
+				// localStorage.setItem("loggedIn", "true");
 				localStorage.setItem("userEmail", formData.email);
 			}
 

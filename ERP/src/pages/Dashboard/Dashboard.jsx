@@ -31,19 +31,19 @@ const Dashboard = () => {
 			if(!localStorage.getItem("username") || !localStorage.getItem("organization") ){	
 
 				try{
-					const responseUsername= await fetch('http://localhost:5000/getUsername', {
+					// const responseUsername= await fetch(`${import.meta.env.VITE_API_URL}/getUsername`, {
+					// 	method: 'POST',
+					// 	headers: { 'Content-Type': 'application/json' },
+					// 	body: JSON.stringify({email:localStorage.getItem("userEmail")})
+					// });
+					// if (!responseUsername.ok) throw new Error('Failed to fetch username');
+					// const dataUsername = await responseUsername.json();
+					// localStorage.setItem('username', dataUsername.username);
+
+					const responseOrganization= await fetch(`${import.meta.env.VITE_API_URL}/getOrganization`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({email:localStorage.getItem("userEmail")})
-					});
-					if (!responseUsername.ok) throw new Error('Failed to fetch username');
-					const dataUsername = await responseUsername.json();
-					localStorage.setItem('username', dataUsername.username);
-
-					const responseOrganization= await fetch('http://localhost:5000/getOrganization', {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({email:localStorage.getItem("username")})
 					});
 					if (!responseOrganization.ok) throw new Error('Failed to fetch organization');
 					const dataOrganization = await responseOrganization.json();
@@ -58,12 +58,12 @@ const Dashboard = () => {
 
 			
 			try {
-				const response = await fetch("http://localhost:5000/modules", {
+				const response = await fetch(`${import.meta.env.VITE_API_URL}/modules`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ email: localStorage.getItem("organization") }),	
+					body: JSON.stringify({ email: localStorage.getItem("userEmail") }),	
 				});
 
 				if (!response.ok) {
@@ -86,7 +86,7 @@ const Dashboard = () => {
 				setError(fetchError instanceof Error ? fetchError.message : "Unable to load modules.");
 			} finally {
 				if (isMounted) {
-					setIsLoading(false);
+					setIsLoading(false);	
 				}
 			}
 		};

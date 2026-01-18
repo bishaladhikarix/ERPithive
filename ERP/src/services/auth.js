@@ -4,8 +4,8 @@
 export const loginUser = async (formdata) => {
  
   try{
-
-    const res = await fetch('http://localhost:5000/user/login', {
+    console.log("Logging in with API URL:", import.meta.env.VITE_API_URL);
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, {
     method: 'POST',
     credentials: "include",
     headers: { 'Content-Type': 'application/json' },
@@ -26,7 +26,7 @@ export const loginUser = async (formdata) => {
 
 export const registerUser = async (formdata) => {
   try{
-    const res = await fetch('http://localhost:5000/user/signup', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/signup`, {
     method: 'POST',
     credentials: "include",
     headers: { 'Content-Type': 'application/json' },
