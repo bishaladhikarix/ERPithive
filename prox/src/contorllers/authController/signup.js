@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { createUser } from "../services/userService.js";
+import { createUser } from "../../services/userService.js";
 
 
 const signup = async (req, res) => {
