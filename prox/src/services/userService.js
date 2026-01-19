@@ -17,8 +17,8 @@ export const getAllUsers = async () => {
     return await Customer.find({});
 };
 
-export const updateUser = async (username, updateData) => {
-    return await Customer.findOneAndUpdate({ username }, updateData, { new: true });
+export const updateUser = async (email, updateData) => {
+    return await Customer.findOneAndUpdate({ email }, updateData, { new: true });
 };
 
 export const deleteUser = async (username) => {

@@ -2,13 +2,14 @@ import { getCustomerFeaturesByEmail } from "../../services/userService.js";
 
 
 
-const getModules = (req, res) => {
+const getModules = async (req, res) => {
     // Placeholder for future implementation
-    const email = req.query.email;
+    console.log(req.body);
+    const email = req.body.email;
     if(!email){
         return res.status(400).json({ message: "Email query parameter is required." });
     }
-    const response = getCustomerFeaturesByEmail(email);
+    const response = await getCustomerFeaturesByEmail(email);
     if(response != null){
         return res.status(200).json({ modules: response });
     }else{
