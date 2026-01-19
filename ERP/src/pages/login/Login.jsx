@@ -52,10 +52,10 @@ const Login = () => {
 				localStorage.setItem("token", "session-active");
 			}
 			
-			if(response.ok){
-				// localStorage.setItem("loggedIn", "true");
-				localStorage.setItem("userEmail", formData.email);
-			}
+			// if(response.ok){
+			// 	// localStorage.setItem("loggedIn", "true");
+			// 	localStorage.setItem("userEmail", formData.email);
+			// }
 
 			navigate("/dashboard", { replace: true });
 		} catch (error) {
