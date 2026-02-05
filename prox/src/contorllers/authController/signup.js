@@ -13,11 +13,12 @@ const signup = async (req, res) => {
         // console.log("Forwarding cookies to ERPNext:", cookieHeader);
         let app = ["saasapp"];
         if(req.body.modules.hr === true){
-            app.push("hr");
+            console.log("HR module selected");
         }
         if(req.body.modules.inventory === true){
-            app.push("inventory");
+            console.log("Inventory module selected");
         }
+        app.push("erpnext");
     
         console.log(req.body);
         const create = process.env.PROVISIONING_SERVICE;

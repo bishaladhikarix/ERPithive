@@ -2,6 +2,7 @@ import { updateUser } from "../../services/userService.js";
 
 const updateModule = async(req, res) => {
     // Placeholder for future implementation
+    console.log("Update module request received with body:", req.body);
     const email = req.body.email;
     const modules = req.body.moduleData;
     console.log(req.body);
