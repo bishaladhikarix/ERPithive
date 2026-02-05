@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import { getSiteNameByEmail } from "../../services/userService.js";
 
 const login = async (req, res) => {
     console.log("Login request received with body:", req.body);
@@ -9,11 +10,31 @@ const login = async (req, res) => {
           message: "Email and password are required",
         });
       }
+
+
       console.log(process.env.FRAPPE_SERVICE);
       if(!process.env.FRAPPE_SERVICE){
         throw new Error("No Frappe service URL provided in environment variables");
       }
       try {
+
+
+
+        try{
+          const siteName = await getSiteNameByEmail(email);
+          console.log("Site name for user:", siteName);
+          
+          if(req.headers.host !== siteName){
+            return res.status(301).json({ redirect: siteName });
+          }else{
+            console.log("Host matches site name, proceeding with login.");
+          }
+          
+
+        }catch(err){
+          return res.status(400).json({ message: err.message });
+        }
+
         const backendResponse = await fetch(
           `${process.env.FRAPPE_SERVICE?? "http://saas.localhost:8000"}/api/method/login`,
           {

@@ -35,6 +35,11 @@ const Login = () => {
 			if (!response) {
 				throw new Error("Invalid email or password.");
 			}
+
+			if(response.status === 301 && response.redirect){
+				window.location.href = `http://${response.redirect}`;
+				return;
+			}
 			console.log("Login response:", response);
 			const token =
 				response.token ||

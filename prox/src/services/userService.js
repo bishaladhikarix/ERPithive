@@ -41,3 +41,17 @@ export const getCustomerFeaturesByEmail = async (email) => {
         throw error;
     }
 }
+
+export const getSiteNameByEmail = async (email) => {
+  try {
+      const customer = await Customer.findOne({ email: email }, 'site_name');
+
+      if (!customer) {
+          return null; 
+      }
+      return customer.site_name;
+  } catch (error) {
+      console.error("Error fetching site name:", error);
+      throw error;
+  }
+}
